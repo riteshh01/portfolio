@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LeetCode Heatmap - Ritesh</title>
+  <style>
+    html, body {
+     margin: 0;
+      color: #c9d1d9;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    h1 {
+      color: #58a6ff;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    #leetcode-heatmap {
+      display: flex;
+      gap: 4px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 4px 4px;
+      border: 1.5px solid #2f3a48;
+      border-radius: 8px;
+      background: #181f2a;
+      max-width: 100vw;
+      box-shadow: 0 0 8px rgba(0, 100, 0, 0.15);
+    }
+
+    .week {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .day {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #2f3a48;
+      box-sizing: border-box;
+      cursor: default;
+    }
+
+    .day:hover {
+      transform: scale(1.5);
+      border: 1.5px solid #e6ffed;
+      box-shadow: 0 0 8px #39d353aa;
+      z-index: 10;
+      position: relative;
+    }
+
+    .legend {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      color: #9aa5b1;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    .legend-box {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      box-shadow: inset 0 0 3px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div id="leetcode-heatmap">Loading...</div>
+
+  <div class="legend">
+    <span>Less</span>
+    <div class="legend-box" style="background:#181f2a"></div>
+    <div class="legend-box" style="background:#0bb24b"></div>
+    <div class="legend-box" style="background:#00d858"></div>
+    <div class="legend-box" style="background:#3fed6f"></div>
+    <div class="legend-box" style="background:#6aff88"></div>
+    <span>More</span>
+  </div>
+
+  <script>
+  const username = "riteshh_0"; // LeetCode username
+
+  async function fetchLeetCodeHeatmap() {
+    try {
+      const res = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/calendar`);
+      const data = await res.json();
+      const calendar = JSON.parse(data.submissionCalendar);
+      renderHeatmap(calendar);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+      document.getElementById("leetcode-heatmap").innerHTML =
+        "<p style='color:#ff6b6b; font-weight:600'>HeatMap was unable to load, Please click on my LeetCode Profile</p>";
+    }
+  }
+
+  function renderHeatmap(calendar) {
+    const container = document.getElementById("leetcode-heatmap");
+    container.innerHTML = "";
+
+    // 🔹 Convert timestamps & fill missing days
+    const timestamps = Object.keys(calendar).map(ts => parseInt(ts));
+    const minDate = new Date(Math.min(...timestamps) * 1000);
+    const maxDate = new Date(Math.max(...timestamps) * 1000);
+    const fullCalendar = {};
+
+    for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
+      const ts = Math.floor(d.getTime() / 1000);
+      fullCalendar[ts] = calendar[ts] || 0;
+    }
+
+    const sortedTimestamps = Object.keys(fullCalendar)
+      .map(ts => parseInt(ts))
+      .sort((a, b) => a - b);
+
+    let week = document.createElement("div");
+    week.classList.add("week");
+
+    sortedTimestamps.forEach((ts, i) => {
+      const date = new Date(ts * 1000);
+      const count = fullCalendar[ts];
+      const day = document.createElement("div");
+      day.classList.add("day");
+
+      // Color based on count with more vibrant modern greens
+      if (count === 0) day.style.background = "#181f2a";
+      else if (count <= 2) day.style.background = "#0bb24b";
+      else if (count <= 5) day.style.background = "#00d858";
+      else if (count <= 10) day.style.background = "#3fed6f";
+      else day.style.background = "#6aff88";
+
+      day.title = `${date.toDateString()}: ${count} submission(s)`;
+      week.appendChild(day);
+
+      if ((i + 1) % 7 === 0) {
+        container.appendChild(week);
+        week = document.createElement("div");
+        week.classList.add("week");
+      }
+    });
+
+    if (week.children.length) container.appendChild(week);
+  }
+
+  fetchLeetCodeHeatmap();
+</script>
+</body>
+</html>

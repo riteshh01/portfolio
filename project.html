@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Projects Section */
+.projects {
+  width: 100%;
+  margin-top: 48px;
+  padding: 0;
+}
+
+.projects h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: var(--hover-bg-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.project-img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.project-info {
+  flex: 1;
+  padding: 16px;
+  color: var(--text-color);
+}
+
+.project-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--heading-color);
+}
+
+.project-info p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  color: var(--text-color);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  background-color: var(--skill-bg-color);
+  color: var(--skill-text-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.project-links {
+  display: flex;
+  gap: 10px;
+}
+
+.project-links a {
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-view {
+  background-color: var(--link-color);
+  color: white;
+}
+
+.btn-code {
+  border: 1px solid var(--link-color);
+  color: var(--link-color);
+}
+
+.btn-view:hover,
+.btn-code:hover {
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project-card {
+    flex-direction: column;
+  }
+
+  .project-img {
+    width: 100%;
+    height: 200px;
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Projects Section -->
+<div class="projects">
+  <h2>Projects</h2>
+  
+  <div class="projects-container">
+    
+    <!-- Project 1 -->
+    <div class="project-card">
+      <img src="project1.png" alt="Project 1" class="project-img">
+      <div class="project-info">
+        <h3>Portfolio Website</h3>
+        <p>A personal portfolio showcasing my skills, education, and projects with dark/light mode toggle.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="#" target="_blank" class="btn-view">View</a>
+          <a href="#" target="_blank" class="btn-code">Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <img src="project2.png" alt="Project 2" class="project-img">
+      <div class="project-info">
+        <h3>College Transport System</h3>
+        <p>A full-stack MERN project that allows students to book buses, track live location, and manage routes.</p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">MongoDB</span>
+        </div>
+        <div class="project-links">
+          <a href="#" target="_blank" class="btn-view">View</a>
+          <a href="#" target="_blank" class="btn-code">Code</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
